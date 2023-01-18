@@ -1,5 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
+import process from 'process';
+import { User } from '../entities/user.entity';
 import { findUserById } from '../services/user.service';
+import { AppDataSource } from '../utils/data-source';
 
 export const getMeHandler = async (
   req: Request,
@@ -7,15 +10,23 @@ export const getMeHandler = async (
   next: NextFunction
 ) => {
   try {
-    const user = res.locals.user;
+    const userLogin = res.locals.user;
 
-    // const user2 = await findUserById(user.id, {detail:true});
-    const user2 = await findUserById(user.id);
+    const userDetail = await findUserById(userLogin.id, {detail:true});
+    // const user = await AppDataSource
+    //   .getRepository(User)
+    //   .createQueryBuilder("users")
+    //   .select("CURRENT_TIMESTAMP")
+    //   .execute();
 
-    res.status(200).status(200).json({
+    // console.info("takdir",process.env.PORT)
+    // console.info("takdir",process.env.TZ)
+
+
+    res.status(200).json({
       status: 'success',
       data: {
-        user2,
+        userDetail,
       },
     });
   } catch (err: any) {

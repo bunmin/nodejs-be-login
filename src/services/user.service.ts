@@ -16,7 +16,8 @@ export const findUserByEmail = async ({ email }: { email: string }) => {
 };
 
 export const findUserById = async (userId: string, getRelation : object = {}) => {
-  return await userRepository.findOne({ where : { id: userId }, relations : getRelation});
+  const data = await userRepository.findOne({ where : { id: userId }, relations : getRelation});
+  return data;
 };
 
 export const findUser = async (query: Object) => {
